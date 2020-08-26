@@ -1,0 +1,53 @@
+
+POST http://localhost:8080/posts/
+content-type: application/json,
+
+{
+  "title": "Lorem ipsum",
+  "body": "Dolor sit amet, consectetur adipiscing elit",
+  "author": "Admin"
+}
+
+###
+
+GET http://localhost:8080/posts/
+###
+
+PATCH  http://localhost:8080/posts/5f391b1ab7e18b0082d7da26
+content-type: application/json
+
+{
+  "title": "New title"
+}
+###
+
+DELETE http://localhost:8080/posts/5f391b5391b53f009045f5dd
+
+
+
+
+// register
+
+###
+POST http://localhost:8080/register
+content-type: application/json
+
+{
+  "name": "Jedai",
+  "lastName": "Skywalker",
+  "email": "luck@star0.com",
+  "password": "darkwader",
+  "role": 0
+}
+//login form
+################################################################
+
+POST http://localhost:8080/login
+content-type: application/json
+
+{
+   "email": "luck@star0.com",
+  "password": "darkwader"
+}
+
+###
