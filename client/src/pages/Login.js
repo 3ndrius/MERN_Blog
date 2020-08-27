@@ -19,8 +19,8 @@ export default function Login(props) {
       const config = { headers: { "Content-Type": "application/json" } }
       const body = { email, password }
       const response = await API.post("/login", body, config)
-      setAuth({login: response.data.login})
-      localStorage.setItem("auth", JSON.stringify({login:response.data.login}))
+      setAuth(response.data.login)
+      localStorage.setItem("auth", JSON.stringify(response.data.login))
       response.data.success && props.history.push(`/`)
     } catch (e) {
       console.log("Error", e);
