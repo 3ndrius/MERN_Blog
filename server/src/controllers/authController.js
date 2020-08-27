@@ -29,11 +29,11 @@ module.exports = {
       });
     } catch (error) {
       if (error.isJoi === true) error.status = 422;
-      res.status(500).json({
+      res.send({
         success: false,
-        error: error,
+        error: "" + error,
       });
-      next(error);
+      
     }
   },
 
@@ -63,13 +63,12 @@ module.exports = {
         // token
       });
     } catch (error) {
+      res.send({
+        success: false,
+        error: "" + error
+      });
       if (error.isJoi === true)
         return next(createError.BadRequest("Invalid Username/Password"));
-      res.status(error.status || 500).send({
-        success: false,
-        error,
-      });
-      next(error);
     }
   },
 
