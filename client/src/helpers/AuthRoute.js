@@ -21,7 +21,7 @@ export function PublicRoute({ component: Component, authenticated, ...rest }) {
       {...rest}
       render={(props) => auth === false
         ? <Component {...props} />
-        : <Redirect to='/dashboard' />}
+        : <Redirect to='/' />}
     />
   )
 }

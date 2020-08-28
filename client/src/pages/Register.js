@@ -17,7 +17,7 @@ export default function Register(props) {
     try {
       const { name, lastName, email, password } = formData;
       const config = { headers: { "Content-Type": "application/json" } };
-      const body = { name, email, password };
+      const body = { name, lastName, email, password };
       const response = await API.post("/register", body, config);
     
       notify({error: response.data.error });

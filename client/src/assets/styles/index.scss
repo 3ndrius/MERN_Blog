@@ -4,3 +4,14 @@ body{
    font-family: 'Inter', sans-serif; 
    
 }
+.list--custom{
+   list-style-type: none;
+   margin: 20px 0;
+   padding: 0;
+}
+.list-item--custom{
+   padding: 25px 0;
+}
+.text-area--custom{
+   min-height: 200px;
+}

@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+
 
 export default function Dashboard() {
+
+    //const { posts } = data.data
+    
     return (
         <div className="container">
-            <div className="jumbotron">
-                <h1>Dashboard</h1>
-            </div>
+           <h1>Dashboard protected</h1>
         </div>
     )
 }

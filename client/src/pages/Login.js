@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Form from "../components/Form";
 import API from "../helpers/API";
 import { notify } from "../helpers/Notify";
 import { useAuthAccess } from "../contexts/AuthContext";
 
 export default function Login(props) {
-  const { setAuth, auth, dispatch } = useAuthAccess();
+  const { setAuth } = useAuthAccess();
 
   const [formData, setFormData] = useState({
     email: "",

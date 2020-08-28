@@ -1,11 +1,11 @@
 
 POST http://localhost:8080/posts/
-content-type: application/json,
+content-type: application/json
 
 {
-  "title": "Lorem ipsum",
-  "body": "Dolor sit amet, consectetur adipiscing elit",
-  "author": "Admin"
+  "title": "React On Page Scroll Progress Bar with Web",
+  "body": "Do you want to display a progress bar on page scroll in React application? Well, then you are at the right place. We are going to build a progress bar only using pure JavaScript and CSS in a React 16+ application.",
+  "author": "tom"
 }
 
 ###
@@ -13,15 +13,16 @@ content-type: application/json,
 GET http://localhost:8080/posts/
 ###
 
-PATCH  http://localhost:8080/posts/5f391b1ab7e18b0082d7da26
+PATCH  http://localhost:8080/posts/5f49001fca36fb004218bf5e
 content-type: application/json
 
 {
-  "title": "New title"
+  "title": "New title2",
+  "body": "Lorem ipsum"
 }
 ###
 
-DELETE http://localhost:8080/posts/5f391b5391b53f009045f5dd
+DELETE http://localhost:8080/posts/5f4905ce25399400df1427ae
 
 
 

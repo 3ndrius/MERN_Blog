@@ -37,29 +37,30 @@ postController.get("/:post_id", (req, res, next) => {
 });
 
 /* Add Single Post */
-postController.post("/", auth, (req, res, next) => {
-  let newPost = {
-    title: req.body.title,
-    body: req.body.body,
-    author: req.body.author,
-  };
-  Post.create(newPost, function (err, result) {
-    if (err) {
-      res.status(400).send({
-        success: false,
-        error: err.message,
+postController.post("/", async (req, res, next) => {
+  console.log(req.body);
+  try {
+    let newPost = {
+      title: req.body.title,
+      body: req.body.body,
+      author: req.body.author,
+    };
+    const post = new Post(newPost);
+    const savedPost = await post.save();
+    res
+      .status(201)
+      .json({
+        success: true,
+        data: savedPost,
+        message: "Post created successfully!",
       });
-    }
-    res.status(201).send({
-      success: true,
-      data: result,
-      message: "Post created successfully",
-    });
-  });
+  } catch (err) {
+    res.status(400).json({ success: false, error: "" + err });
+  }
 });
 
 /* Edit Single Post */
-postController.patch("/:post_id", auth, (req, res, next) => {
+postController.patch("/:post_id", (req, res, next) => {
   let fieldsToUpdate = req.body;
   Post.findByIdAndUpdate(
     req.params.post_id,

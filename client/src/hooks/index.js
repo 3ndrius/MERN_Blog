@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import API from "../helpers/API";
 
-export const useFetch = () => {
-  const [data, setData] = useState(null);
+export const useFetch = (postId="") => {
+  const [response, setResponse] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
       try {
         setIsLoading(true);
-        const response = await API.get("/posts")
-        setData(response);
+        const res = await API.get(`/posts/${postId}`)
+        setResponse(res);
         setIsLoading(false);
       } catch (e) {
         console.log(e);
@@ -18,7 +18,7 @@ export const useFetch = () => {
     };
     getData();
   }, []);
-  return { data, isLoading };
+  return { response, isLoading };
 };
 
 
