@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useFetch } from '../hooks/index'
+
 export default function Home() {
     const { response, isLoading } = useFetch()
     console.log(response?.data.data, isLoading)
@@ -16,10 +17,9 @@ export default function Home() {
                             return (
                                 <li className="list-item list-item--custom" key={post._id}>
                                     <Link to={`/posts/${post._id}`}> <h2>{post.title}</h2> </Link>
-                                    <p>{post.body}</p>
-                                    <hr/>
+                                    <p>{post.body.substring(0, 200) + "..."}</p>
+                                    <hr />
                                     <h6>{post.author}</h6>
-                                    <Link to={`/update/${post._id}`}>Update Post</Link>
                                 </li>
                             )
                         })}

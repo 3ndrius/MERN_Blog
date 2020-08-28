@@ -29,7 +29,12 @@ export default function Header() {
                         {!auth && <li className="nav-item">
                             <Link to="/signup" className="nav-link">Register</Link>
                         </li>}
-                        {auth &&
+
+                        {auth && <li className="nav-item">
+                            <Link to="/add" className="nav-link">New Post</Link>
+                        </li>
+}
+                       { auth &&
                             <li className="nav-item dropdown dropleft">
                                 <span className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
                                     User
@@ -41,8 +46,8 @@ export default function Header() {
                                     <li><span className="dropdown-item" onClick={handleLogout}>Logout</span></li>
                                 </ul>
                             </li>
-
-                        }
+}
+                        
                     </ul>
                 </div>
             </div>
