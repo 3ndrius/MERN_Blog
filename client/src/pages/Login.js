@@ -1,11 +1,11 @@
-import React, { useState } from "react"
-import Form from "../components/Form"
-import API from "../helpers/API"
-import { notify } from '../helpers/Notify'
-import { useAuthAccess } from '../contexts/AuthContext'
+import React, { useState, useEffect } from "react";
+import Form from "../components/Form";
+import API from "../helpers/API";
+import { notify } from "../helpers/Notify";
+import { useAuthAccess } from "../contexts/AuthContext";
 
 export default function Login(props) {
-    const { setAuth } = useAuthAccess()
+  const { setAuth, auth, dispatch } = useAuthAccess();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -15,15 +15,17 @@ export default function Login(props) {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const {email, password } = formData
-      const config = { headers: { "Content-Type": "application/json" } }
-      const body = { email, password }
-      const response = await API.post("/login", body, config)
-      setAuth(response.data.login)
-      localStorage.setItem("auth", JSON.stringify(response.data.login))
-      response.data.success && props.history.push(`/`)
+      const { email, password } = formData;
+      const config = { headers: { "Content-Type": "application/json" } };
+      const body = { email, password };
+      const response = await API.post("/login", body, config);
+      if (response.data.success) {
+        setAuth(response.data.login);
+        localStorage.setItem("auth", JSON.stringify(response.data.login));
+        props.history.push(`/`);
+      }
+      notify({ error: response.data.error });
     } catch (e) {
-      console.log("Error", e);
       notify({ error: e });
     }
   };
@@ -36,10 +38,7 @@ export default function Login(props) {
 
   return (
     <div className="container">
-      <Form
-        handleSubmit={handleLogin}
-        handleChange={handleUser}
-      />
+      <Form handleSubmit={handleLogin} handleChange={handleUser} />
     </div>
   );
 }
