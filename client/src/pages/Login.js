@@ -18,6 +18,7 @@ export default function Login(props) {
       const { email, password } = formData;
       const config = { headers: { "Content-Type": "application/json" } };
       const body = { email, password };
+      console.log(body)
       const response = await API.post("/login", body, config);
       if (response.data.success) {
         setAuth(response.data.login);

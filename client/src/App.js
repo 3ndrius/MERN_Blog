@@ -10,7 +10,6 @@ import { PublicRoute, PrivateRoute } from './helpers/AuthRoute'
 import Home from './pages/Home'
 import AddPost from './pages/AddPost'
 import SinglePost from './pages/SinglePost'
-import UpdatePost from './pages/UpdatePost';
 
 function App() {
   // const {data, isLoading} = useFetch();
@@ -28,8 +27,7 @@ function App() {
           <PublicRoute path="/signin" exact  component={Login}></PublicRoute> 
           <PrivateRoute path="/dashboard" exact  component={Dashboard}></PrivateRoute>
           <PrivateRoute path="/add" exact  component={AddPost}></PrivateRoute>
-          <PrivateRoute path="/update/:id" exact  component={UpdatePost}></PrivateRoute>
-      </Switch>
+        </Switch>
     </AuthProvider>
       <ToastContainer/>
     </>
