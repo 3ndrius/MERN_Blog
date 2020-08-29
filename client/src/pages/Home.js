@@ -4,8 +4,9 @@ import { useFetch } from '../hooks/index'
 
 export default function Home() {
     const { response, isLoading } = useFetch()
-    console.log(response?.data.data, isLoading)
+    // console.log(response?.data.data, isLoading)
     return (
+            isLoading ? <div className="container">Loading</div> :
         <div className="container">
             <div className="row">
                 <h1>Posts</h1>

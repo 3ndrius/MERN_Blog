@@ -4,7 +4,6 @@ import { useAuthAccess } from '../contexts/AuthContext'
 
 export function PrivateRoute({ component: Component, authenticated, ...rest }) {
   const { auth } = useAuthAccess();
-  console.log("Auth private", auth)
   return (
     <Route
       {...rest}
