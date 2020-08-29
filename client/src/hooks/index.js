@@ -22,20 +22,3 @@ export const useFetch = (postId="") => {
 };
 
 
-// export const useAuthFetch = (name, email, password) => {
-//     const [granted, setGranted] = useState(false)
-
-//     useEffect(() => {
-//         const tryAuth = async () => {
-//             try {
-//               const config = { headers: { "Content-Type": "application/json" } };
-//               const body = { name, email, password };
-//               const response = await API.post("/register", body, config) 
-//             } catch (e) {
-//                 console.log("Error", e)
-//             }
-//         };
-//         tryAuth();
-//     }, [])
-//     return {granted};
-// }

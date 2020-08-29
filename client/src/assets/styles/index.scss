@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+@import './var.scss';
 
 body{
-   font-family: 'Inter', sans-serif; 
+   font-family: $main-f-fam;
    
 }
+
 .list--custom{
    list-style-type: none;
    margin: 20px 0;
@@ -13,5 +15,17 @@ body{
    padding: 25px 0;
 }
 .text-area--custom{
-   min-height: 200px;
+   min-height: 250px;
+   border:1px solid $light-clr200;
+   
+   }
+.form-control--custom{
+   height: 60px;
+   border:1px solid $light-clr200;
+  
+}
+.btn{
+   svg{
+      margin: 0 5px;
+   }
 }

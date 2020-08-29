@@ -9,13 +9,13 @@ export default function Header() {
     const handleLogout = async () => {
         const config = { headers: { "Content-Type": "application/json" } };
         const response = await API.get("/logout", config);
-        notify({error: response.data.error})
+        notify({ error: response.data.error })
         setAuth(false)
         localStorage.removeItem("auth")
     }
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light mb-5">
-            <div className="container-fluid">
+            <div className="container">
                 <Link to="/" className="navbar-brand" >Navbar</Link>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -31,11 +31,11 @@ export default function Header() {
                         </li>}
 
                         {auth && <li className="nav-item">
-                            <Link to="/add" className="nav-link">New Post</Link>
+                            <Link to="/add" className="nav-link"> New Post</Link>
                         </li>
-}
-                       { auth &&
-                            <li className="nav-item dropdown dropleft">
+                        }
+                        {auth &&
+                            <li className="nav-item dropdown">
                                 <span className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
                                     User
                     </span>
@@ -46,8 +46,8 @@ export default function Header() {
                                     <li><span className="dropdown-item" onClick={handleLogout}>Logout</span></li>
                                 </ul>
                             </li>
-}
-                        
+                        }
+
                     </ul>
                 </div>
             </div>

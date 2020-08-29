@@ -12,24 +12,20 @@ import AddPost from './pages/AddPost'
 import SinglePost from './pages/SinglePost'
 
 function App() {
-  // const {data, isLoading} = useFetch();
- 
-  // console.log(data, isLoading);
-
   return (
     <>
-    <AuthProvider>
-      <Header />
-      <Switch>
+      <AuthProvider>
+        <Header />
+        <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/posts/:id" exact component={SinglePost} />
-          <PublicRoute path="/signup" exact  component={Register}></PublicRoute>
-          <PublicRoute path="/signin" exact  component={Login}></PublicRoute> 
-          <PrivateRoute path="/dashboard" exact  component={Dashboard}></PrivateRoute>
-          <PrivateRoute path="/add" exact  component={AddPost}></PrivateRoute>
+          <PublicRoute path="/signup" exact component={Register}></PublicRoute>
+          <PublicRoute path="/signin" exact component={Login}></PublicRoute>
+          <PrivateRoute path="/dashboard" exact component={Dashboard}></PrivateRoute>
+          <PrivateRoute path="/add" exact component={AddPost}></PrivateRoute>
         </Switch>
-    </AuthProvider>
-      <ToastContainer/>
+      </AuthProvider>
+      <ToastContainer />
     </>
   );
 }

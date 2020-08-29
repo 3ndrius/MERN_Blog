@@ -1,9 +1,9 @@
 import React from 'react'
-import {Route, Redirect} from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 import { useAuthAccess } from '../contexts/AuthContext'
 
 export function PrivateRoute({ component: Component, authenticated, ...rest }) {
-  const {auth} = useAuthAccess();
+  const { auth } = useAuthAccess();
   console.log("Auth private", auth)
   return (
     <Route
@@ -15,7 +15,7 @@ export function PrivateRoute({ component: Component, authenticated, ...rest }) {
   )
 }
 export function PublicRoute({ component: Component, authenticated, ...rest }) {
-  const {auth} = useAuthAccess();
+  const { auth } = useAuthAccess();
   return (
     <Route
       {...rest}

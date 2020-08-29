@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 export default function form(props) {
-    
+
     return (
         <>
             <div className="row" >
@@ -15,20 +15,20 @@ export default function form(props) {
                     <form onSubmit={(e) => props.handleSubmit(e)}>
                         {props.register && <div className="mb-3" >
                             <label htmlFor="name" className="form-label">Name</label>
-                            <input type="text" className="form-control" id="name"  onChange={(e) => props.handleChange(e)} />
+                            <input type="text" className="form-control" id="name" onChange={(e) => props.handleChange(e)} />
                         </div>}
                         {props.register && <div className="mb-3">
                             <label htmlFor="lastName" className="form-label">Lastname</label>
-                            <input type="text" className="form-control" id="lastName"  onChange={(e) => props.handleChange(e)} />
+                            <input type="text" className="form-control" id="lastName" onChange={(e) => props.handleChange(e)} />
                         </div>}
                         <div className="mb-3">
                             <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
-                            <input type="email" className="form-control" id="email" aria-describedby="emailHelp"  onChange={(e) => props.handleChange(e)}/>
+                            <input type="email" className="form-control" id="email" aria-describedby="emailHelp" onChange={(e) => props.handleChange(e)} />
                             <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                            <input type="password" className="form-control" id="password"  onChange={(e) => props.handleChange(e)}/>
+                            <input type="password" className="form-control" id="password" onChange={(e) => props.handleChange(e)} />
                         </div>
                         <div className="mb-3 form-check">
                             <input type="checkbox" className="form-check-input" id="exampleCheck1" onChange={(e) => props.handleChange(e)} />

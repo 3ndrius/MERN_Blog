@@ -4,7 +4,7 @@ import API from "../helpers/API";
 import { notify } from '../helpers/Notify'
 
 export default function Register(props) {
- 
+
   const [formData, setFormData] = useState({
     name: "",
     lastName: "",
@@ -19,8 +19,8 @@ export default function Register(props) {
       const config = { headers: { "Content-Type": "application/json" } };
       const body = { name, lastName, email, password };
       const response = await API.post("/register", body, config);
-    
-      notify({error: response.data.error });
+
+      notify({ error: response.data.error });
       response.data.success && props.history.push(`/signin`)
     } catch (e) {
       console.log("Error", e);
