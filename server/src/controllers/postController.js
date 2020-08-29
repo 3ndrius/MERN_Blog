@@ -37,7 +37,7 @@ postController.get("/:post_id", (req, res, next) => {
 });
 
 /* Add Single Post */
-postController.post("/", async (req, res, next) => {
+postController.post("/", auth, async (req, res, next) => {
   console.log(req.body);
   try {
     let newPost = {
@@ -60,7 +60,7 @@ postController.post("/", async (req, res, next) => {
 });
 
 /* Edit Single Post */
-postController.patch("/:post_id", (req, res, next) => {
+postController.patch("/:post_id", auth, (req, res, next) => {
   let fieldsToUpdate = req.body;
   Post.findByIdAndUpdate(
     req.params.post_id,
