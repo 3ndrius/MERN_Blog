@@ -4,8 +4,8 @@ const Post = require("../models/post.model");
 const { auth, isAdmin } = require("../middleware/authMiddleware");
 /* Get all Posts */
 
-postController.get("/", (req, res, next) => {
-  // console.log(res.locals.user)
+postController.get("/", isAdmin, (req, res, next) => {
+  let usr = res.locals.user
   Post.find({}, function (err, result) {
     if (err) {
       res.status(400).send({
@@ -37,13 +37,12 @@ postController.get("/:post_id", (req, res, next) => {
 });
 
 /* Add Single Post */
-postController.post("/", auth, async (req, res, next) => {
-  console.log(req.body);
+postController.post("/", auth, isAdmin, async (req, res, next) => {
   try {
     let newPost = {
       title: req.body.title,
       body: req.body.body,
-      author: req.body.author,
+      author: res.locals.user.email,
     };
     const post = new Post(newPost);
     const savedPost = await post.save();

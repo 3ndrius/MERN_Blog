@@ -1,5 +1,6 @@
 // Post.model.js
 const mongoose = require('mongoose');
+
 const postSchema = new mongoose.Schema({
    title: {
        type: String
@@ -8,7 +9,7 @@ const postSchema = new mongoose.Schema({
        type: String
    },
    author: {
-       type: String
+        type: String
    }
 });
 

@@ -17,7 +17,7 @@ export default function Home() {
                             return (
                                 <li className="list-item list-item--custom" key={post._id}>
                                     <Link to={`/posts/${post._id}`}> <h2>{post.title}</h2> </Link>
-                                    <p>{post.body.substring(0, 200) + "..."}</p>
+                                    <p>{post?.body?.substring(0, 200) + "..."}</p>
                                     <hr />
                                     <h6>{post.author}</h6>
                                 </li>
