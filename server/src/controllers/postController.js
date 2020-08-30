@@ -34,7 +34,7 @@ postController.get("/:post_id", async (req, res, next) => {
   // });
   try {
     let singlePost = await Post.findById(req.params.post_id)
-      .populate("author")
+      .populate({path:"author",select:['name', 'lastName', 'email']})
       .exec();
     res.status(200).json({
       success: true,

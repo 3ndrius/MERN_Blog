@@ -73,10 +73,12 @@ export default function SinglePost(props) {
                 }
                 <div className="row mt-5">
                     <div className="col-md-12">
-                        <div className="mb-5 p-2" id="editor" dangerouslySetInnerHTML={{ __html: response?.data.data.title }} />
-                        <div id="editor2" className=" p-2" dangerouslySetInnerHTML={{ __html: response?.data.data.body }} />
+                        <h1 className="mb-5 p-2" id="editor" dangerouslySetInnerHTML={{ __html: response?.data.data.title }} />
+                        <p id="editor2" className=" p-2" dangerouslySetInnerHTML={{ __html: response?.data.data.body }} />
                         <hr />
-                        {/* <p>{response?.data.data.author}</p> */}
+                        <span>{response?.data.data.author.name } | </span>
+                        <span>{response?.data.data.author.lastName }|</span>
+                        <span>{response?.data.data.author.email }</span>
                     </div>
                 </div>
             </div>

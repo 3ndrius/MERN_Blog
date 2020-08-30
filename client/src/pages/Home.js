@@ -17,10 +17,9 @@ export default function Home() {
                         {response?.data.data.map((post) => {
                             return (
                                 <li className="list-item list-item--custom" key={post._id}>
-                                    <Link to={`/posts/${post._id}`}> <h2>{post.title}</h2> </Link>
-                                    <p>{post?.body?.substring(0, 200) + "..."}</p>
+                                    <Link to={`/posts/${post._id}`}> <h1 dangerouslySetInnerHTML={{ __html: post?.title }} /> </Link>
+                                    {/* <p dangerouslySetInnerHTML={{ __html: post?.body}} /> */}
                                     <hr />
-                                    {/* <h6>{post.author}</h6> */}
                                 </li>
                             )
                         })}

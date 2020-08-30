@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import PostForm from '../components/PostForm'
 import API from '../helpers/API'
+import { notify } from '../helpers/Notify'
 
 export default function AddPost() {
     const [formData, setFormData] = useState({ title: "", content: ""})
@@ -17,8 +18,9 @@ export default function AddPost() {
       const config = { headers: { "Content-Type": "application/json" } };
       const bodys = { title, body };
         const res = await API.post(`/posts`, bodys, config)
-        console.log(res)
+        notify({ error:res.data.error, msg: res.data.message});
       } catch (e) {
+        notify({ error:"Error" + e});
         console.log(e);
       }
     };
