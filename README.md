@@ -1,6 +1,6 @@
 # MERN_STACK_BLOG
 
-Full stack blog using mern stack, with register, and login using cookie http-only credentials
+Full stack blog using mern stack, with register, and login using cookie http-only credentials. On server side use MVC pattern with separate route.
 
 ## FUNCTIONALITY
 
@@ -8,6 +8,19 @@ Full stack blog using mern stack, with register, and login using cookie http-onl
 - login
 - logout 
 - create,read,update,delete posts
+- ...
+
+## TECH STACK AND PACKAGE
+
+- MERN
+- mongoose
+- react-hooks 
+- axios
+- bootstrap 5
+- sass
+- react-router 
+- react-lazy-loading
+- async await
 - ...
 
 
