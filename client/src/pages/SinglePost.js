@@ -76,7 +76,7 @@ export default function SinglePost(props) {
                         <div className="mb-5 p-2" id="editor" dangerouslySetInnerHTML={{ __html: response?.data.data.title }} />
                         <div id="editor2" className=" p-2" dangerouslySetInnerHTML={{ __html: response?.data.data.body }} />
                         <hr />
-                        <p>{response?.data.data.author}</p>
+                        {/* <p>{response?.data.data.author}</p> */}
                     </div>
                 </div>
             </div>

@@ -9,7 +9,7 @@ const postSchema = new mongoose.Schema({
        type: String
    },
    author: {
-        type: String
+        type: mongoose.Schema.ObjectId, ref: 'User'
    }
 });
 

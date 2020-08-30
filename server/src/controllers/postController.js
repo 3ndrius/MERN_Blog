@@ -5,9 +5,12 @@ const { auth, isAdmin } = require("../middleware/authMiddleware");
 /* Get all Posts */
 
 postController.get("/", isAdmin, async (req, res, next) => {
+  let usr = res.locals.user;
+  let posts = {};
   try {
-    let usr = res.locals.user;
-    let posts = await Post.find({});
+    usr && usr.role === 0
+      ? (posts = await Post.find({}).where("author").equals(usr._id).exec())
+      : (posts = await Post.find({}));
     res.status(200).json({ success: true, data: posts });
   } catch (err) {
     res.status(400).json({ success: false, error: "Sth wrong" + err.message });
@@ -30,7 +33,9 @@ postController.get("/:post_id", async (req, res, next) => {
   //   });
   // });
   try {
-    let singlePost = await Post.findById(req.params.post_id);
+    let singlePost = await Post.findById(req.params.post_id)
+      .populate("author")
+      .exec();
     res.status(200).json({
       success: true,
       data: singlePost,
@@ -49,7 +54,7 @@ postController.post("/", auth, isAdmin, async (req, res, next) => {
     let newPost = {
       title: req.body.title,
       body: req.body.body,
-      author: res.locals.user.email,
+      author: res.locals.user._id,
     };
     const post = new Post(newPost);
     const savedPost = await post.save();

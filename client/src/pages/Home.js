@@ -20,7 +20,7 @@ export default function Home() {
                                     <Link to={`/posts/${post._id}`}> <h2>{post.title}</h2> </Link>
                                     <p>{post?.body?.substring(0, 200) + "..."}</p>
                                     <hr />
-                                    <h6>{post.author}</h6>
+                                    {/* <h6>{post.author}</h6> */}
                                 </li>
                             )
                         })}

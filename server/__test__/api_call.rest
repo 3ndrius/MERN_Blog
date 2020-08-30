@@ -22,7 +22,7 @@ content-type: application/json
 }
 ###
 
-DELETE http://localhost:8080/posts/5f4905ce25399400df1427ae
+DELETE http://localhost:8080/posts/5f4c05bc40e9a400fe34f1a8
 
 
 
