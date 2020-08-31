@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import Form from "../components/Form";
-import API from "../helpers/API";
+import React, { useState } from "react"
+import Form from "../components/Form"
+import API from "../helpers/API"
 import { notify } from '../helpers/Notify'
 
 export default function Register(props) {

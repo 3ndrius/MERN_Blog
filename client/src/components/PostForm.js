@@ -1,6 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-export default function form(props) {
+export default function PostForm(props) {
     return (
         <>
             <div className="row" >
@@ -27,4 +28,7 @@ export default function form(props) {
             </div>
         </>
     )
+}
+PostForm.propTypes = {
+    handleSubmit: PropTypes.func
 }

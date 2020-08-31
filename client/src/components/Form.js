@@ -1,7 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
-export default function form(props) {
+export default function Form(props) {
 
     return (
         <>
@@ -41,4 +42,9 @@ export default function form(props) {
             </div>
         </>
     )
+}
+Form.propTypes = {
+    register: PropTypes.bool,
+    handleChange: PropTypes.func,
+    handleSubmit: PropTypes.func
 }
