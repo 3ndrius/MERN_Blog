@@ -8,7 +8,6 @@ export default function AddPost() {
 
     const handleChange = (e) => {
         setFormData({...formData, [e.target.id]: e.target.value})
-        console.log(formData)
     }
 
     const savePost = async (e) => {

@@ -19,7 +19,7 @@ export const useFetch = (postId="", all=false) => {
       }
     };
     getData();
-  }, [postId],);
+  }, [postId, all]);
   return { response, isLoading };
 };
 

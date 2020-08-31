@@ -13,7 +13,6 @@ export default function Header() {
         setAuth({login: false})
         localStorage.removeItem("auth")
     }
-    console.log(auth.userInfo)
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light mb-5">
             <div className="container">

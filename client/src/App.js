@@ -4,7 +4,6 @@ import { PublicRoute, PrivateRoute } from './helpers/AuthRoute'
 import Header from "./components/Header"
 import { ToastContainer } from 'react-toastify'
 import { AuthProvider } from "./contexts/AuthContext"
-import Skeleton from 'react-loading-skeleton'
 
 const Home = (lazy(() => (import('./pages/Home'))))
 const SinglePost = (lazy(() => (import('./pages/SinglePost'))))
@@ -16,8 +15,8 @@ const User = (lazy(() => (import('./pages/User'))))
 
 const Loadings = () => (
   <div className="container text-center">
-    <div class="spinner-border" role="status">
-      <span class="sr-only">Loading...</span>
+    <div className="spinner-border" role="status">
+      <span className="sr-only">Loading...</span>
     </div>
   </div>
 )
