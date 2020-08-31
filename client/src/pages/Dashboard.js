@@ -1,28 +1,16 @@
-// import React from 'react'
-
-
-// export default function Dashboard() {
-
-//     //const { posts } = data.data
-    
-//     return (
-//         <div className="container">
-//            <h1>Dashboard protected</h1>
-//         </div>
-//     )
-// }
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useFetch } from '../hooks/index'
+import Skeleton from 'react-loading-skeleton'
 
 export default function Dashboard() {
     const { response, isLoading } = useFetch()
     return (
-            isLoading ? <div className="container">Loading</div> :
         <div className="container">
             <div className="row">
                 <h1>Your Posts</h1>
             </div>
+            {isLoading ? <div className="row"> <Skeleton height={80} /> <Skeleton height={80} /> <Skeleton height={80} /> <Skeleton height={80} /> <Skeleton height={80} /> </div> :
             <div className="row">
                 <div className="col-md-12">
                     <ul className="list list--custom">
@@ -37,7 +25,7 @@ export default function Dashboard() {
                         })}
                     </ul>
                 </div>
-            </div>
+            </div>}
         </div>
     )
 }

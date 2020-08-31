@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Skeleton from 'react-loading-skeleton'
 import API from '../helpers/API'
 import { useFetch } from '../hooks'
 import { notify } from '../helpers/Notify'
@@ -72,12 +73,12 @@ export default function SinglePost(props) {
                 }
                 <div className="row mt-5">
                     <div className="col-md-12">
-                        <h1 className="mb-5 p-2" id="editor" dangerouslySetInnerHTML={{ __html: response?.data.data.title }} />
-                        <p id="editor2" className=" p-2" dangerouslySetInnerHTML={{ __html: response?.data.data.body }} />
+                        {isLoading ? <Skeleton height={80} /> : <h1 className="mb-5 p-2" id="editor" dangerouslySetInnerHTML={{ __html: response?.data.data.title }} />}
+                        {isLoading ? <Skeleton count={5}/> : <p id="editor2" className=" p-2" dangerouslySetInnerHTML={{ __html: response?.data.data.body }} />}
                         <hr />
-                        <span>{response?.data.data.author.name} | </span>
-                        <span>{response?.data.data.author.lastName}|</span>
-                        <span>{response?.data.data.author.email}</span>
+                        <span>{isLoading ?<Skeleton width={100}/> : response?.data.data.author.name} </span>
+                        <span>{isLoading ?< Skeleton width={100}/> : response?.data.data.author.lastName} </span>
+                        <span>{isLoading ? < Skeleton width={100}/> : response?.data.data.author.email}</span>
                     </div>
                 </div>
             </div>
