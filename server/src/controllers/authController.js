@@ -33,7 +33,7 @@ module.exports = {
         success: false,
         error: "" + error,
       });
-      
+
     }
   },
 
@@ -59,6 +59,7 @@ module.exports = {
       res.status(200).send({
         success: true,
         user: user._id,
+        userInfo: { name: user.name, lastName: user.lastName, email: user.email },
         login: true,
         // token
       });

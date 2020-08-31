@@ -10,9 +10,10 @@ export default function Header() {
         const config = { headers: { "Content-Type": "application/json" } };
         const response = await API.get("/logout", config);
         notify({ error: response.data.error })
-        setAuth(false)
+        setAuth({login: false})
         localStorage.removeItem("auth")
     }
+    console.log(auth.userInfo)
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light mb-5">
             <div className="container">
@@ -23,24 +24,24 @@ export default function Header() {
                 <div className="collapse navbar-collapse d-lg-flex justify-content-lg-end" id="navbarSupportedContent">
 
                     <ul className="navbar-nav d-flex">
-                        {!auth && <li className="nav-item">
+                        {!auth.login && <li className="nav-item">
                             <Link to="/signin" className="nav-link">Login</Link>
                         </li>}
-                        {!auth && <li className="nav-item">
+                        {!auth.login && <li className="nav-item">
                             <Link to="/signup" className="nav-link">Register</Link>
                         </li>}
 
-                        {auth && <li className="nav-item">
+                        {auth.login && <li className="nav-item">
                             <Link to="/add" className="nav-link"> New Post</Link>
                         </li>
                         }
-                        {auth &&
+                        {auth.login &&
                             <li className="nav-item dropdown">
                                 <span className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
-                                    User
+                                     {auth.userInfo.name}
                     </span>
                                 <ul className="dropdown-menu " aria-labelledby="navbarDropdown">
-                                    <li><Link to="/" className="dropdown-item" >User</Link></li>
+                                    <li><Link to="/user" className="dropdown-item" >User</Link></li>
                                     <li><Link to="/dashboard" className="dropdown-item" >Dashboard</Link></li>
                                     <li><hr className="dropdown-divider" /></li>
                                     <li><span className="dropdown-item" onClick={handleLogout}>Logout</span></li>

@@ -17,12 +17,11 @@ import { useFetch } from '../hooks/index'
 
 export default function Dashboard() {
     const { response, isLoading } = useFetch()
-    // console.log(response?.data.data, isLoading)
     return (
             isLoading ? <div className="container">Loading</div> :
         <div className="container">
             <div className="row">
-                <h1>Posts</h1>
+                <h1>Your Posts</h1>
             </div>
             <div className="row">
                 <div className="col-md-12">

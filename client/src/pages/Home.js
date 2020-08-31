@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useFetch } from '../hooks/index'
 
 export default function Home() {
-    const { response, isLoading } = useFetch()
+    const { response, isLoading } = useFetch("", true)
     // console.log(response?.data.data, isLoading)
     return (
             isLoading ? <div className="container">Loading</div> :

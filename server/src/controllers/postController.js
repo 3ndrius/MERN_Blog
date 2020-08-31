@@ -4,13 +4,20 @@ const Post = require("../models/post.model");
 const { auth, isAdmin } = require("../middleware/authMiddleware");
 /* Get all Posts */
 
-postController.get("/", isAdmin, async (req, res, next) => {
+postController.get("/", isAdmin, auth, async (req, res, next) => {
+
   let usr = res.locals.user;
-  let posts = {};
   try {
-    usr && usr.role === 0
-      ? (posts = await Post.find({}).where("author").equals(usr._id).exec())
-      : (posts = await Post.find({}));
+    let posts = await Post.find({}).where("author").equals(usr._id).exec()
+    res.status(200).json({ success: true, data: posts });
+  } catch (err) {
+    res.status(400).json({ success: false, error: "Sth wrong" + err.message });
+  }
+});
+
+postController.get("/all", async (req, res, next) => {
+  try {
+    let posts = await Post.find({})
     res.status(200).json({ success: true, data: posts });
   } catch (err) {
     res.status(400).json({ success: false, error: "Sth wrong" + err.message });
@@ -34,7 +41,7 @@ postController.get("/:post_id", async (req, res, next) => {
   // });
   try {
     let singlePost = await Post.findById(req.params.post_id)
-      .populate({path:"author",select:['name', 'lastName', 'email']})
+      .populate({ path: "author", select: ['name', 'lastName', 'email'] })
       .exec();
     res.status(200).json({
       success: true,
@@ -72,7 +79,7 @@ postController.post("/", auth, isAdmin, async (req, res, next) => {
 });
 
 /* Edit Single Post */
-postController.patch("/:post_id", auth, async (req, res, next) => {
+postController.patch("/:post_id", auth, isAdmin, async (req, res, next) => {
   try {
     let fieldsToUpdate = req.body;
     let post = await Post.findByIdAndUpdate(
@@ -83,7 +90,7 @@ postController.patch("/:post_id", auth, async (req, res, next) => {
       {
         new: true,
       }
-    );
+    ).where('author').equals(res.locals.user._id).exec()
     res.status(200).json({
       success: true,
       data: post,
@@ -98,9 +105,10 @@ postController.patch("/:post_id", auth, async (req, res, next) => {
 });
 
 /* Delete Single Post */
-postController.delete("/:post_id", auth, async (req, res, next) => {
+postController.delete("/:post_id", auth, isAdmin, async (req, res, next) => {
+
   try {
-    let result = await Post.findByIdAndDelete(req.params.post_id);
+    let result = await Post.findByIdAndDelete(req.params.post_id).where('author').equals(res.locals.user._id).exec()
     res.status(200).json({
       success: true,
       result,
