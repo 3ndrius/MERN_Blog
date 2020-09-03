@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema({
     commentBody: { type: String },
+    commentAuthor: { type: String },
     authorId: {type: String },
     postId: { type: String },
 })

@@ -4,6 +4,7 @@ import API from '../helpers/API'
 import { useFetch } from '../hooks'
 import { notify } from '../helpers/Notify'
 import { useAuthAccess } from '../contexts/AuthContext'
+import PostForm from '../components/PostForm';
 
 export default function SinglePost(props) {
     const { id } = props?.match.params
@@ -12,11 +13,14 @@ export default function SinglePost(props) {
     const [btnName, setBtnName] = useState("Enable editing")
     const { response, isLoading } = useFetch(props.match.params.id)
     const { auth } = useAuthAccess()
+    const [formData, handleFormData] = useState({})
 
     const enableUpdate = () => {
         setDoCheck(!doCheck)
         doCheck ? setBtnName("Enable editing") : setBtnName("Disable editing")
     }
+
+   
     React.useEffect(() => {
         document.getElementById('editor').contentEditable = doCheck;
         document.getElementById('editor2').contentEditable = doCheck;
@@ -25,11 +29,13 @@ export default function SinglePost(props) {
     const updatePost = async (e) => {
         e.preventDefault()
         try {
+
             let title = document.getElementById('editor').innerHTML
             let body = document.getElementById('editor2').innerHTML
 
             const config = { headers: { "Content-Type": "application/json" } };
             const bodys = { title, body };
+            console.log(bodys)
             const res = await API.patch(`/posts/${id}`, bodys, config)
 
             notify({ error: res.data.error, msg: res.data.message })
@@ -46,6 +52,24 @@ export default function SinglePost(props) {
             const res = await API.delete(`/posts/${id}`, config)
             notify({ error: res.data.error, msg: res.data.message })
             props.history.push('/')
+        } catch (e) {
+            console.log(e);
+            notify({ error: "Server error" + e })
+        }
+    }
+    const handleForm = (e) => {
+        handleFormData({ ...formData, [e.target.id]: e.target.value })
+    }
+    const addComment = async (e) => {
+        e.preventDefault()
+        
+        try {
+            const config = { headers: { "Content-Type": "application/json" } }
+            let postId = props.match.params.id
+            let body = {...formData, postId}
+            const res = await API.post(`/posts/comment`, body, config)
+            response.data.data.comments = response.data.data.comments.push(body)
+            notify({ error: res.data.error, msg: res.data.message })
         } catch (e) {
             console.log(e);
             notify({ error: "Server error" + e })
@@ -74,12 +98,27 @@ export default function SinglePost(props) {
                 <div className="row mt-5">
                     <div className="col-md-12">
                         {isLoading ? <Skeleton height={80} /> : <h1 className="mb-5 p-2" id="editor" dangerouslySetInnerHTML={{ __html: response?.data.data.title }} />}
-                        {isLoading ? <Skeleton count={5}/> : <p id="editor2" className=" p-2" dangerouslySetInnerHTML={{ __html: response?.data.data.body }} />}
+                        {isLoading ? <Skeleton count={5} /> : <p id="editor2" className=" p-2" dangerouslySetInnerHTML={{ __html: response?.data.data.body }} />}
                         <hr />
-                        <span>{isLoading ?<Skeleton width={100}/> : response?.data.data.author.name} </span>
-                        <span>{isLoading ?< Skeleton width={100}/> : response?.data.data.author.lastName} </span>
-                        <span>{isLoading ? < Skeleton width={100}/> : response?.data.data.author.email}</span>
+                        <span>{isLoading ? <Skeleton width={100} /> : response?.data.data.author.name} </span>
+                        <span>{isLoading ? < Skeleton width={100} /> : response?.data.data.author.lastName} </span>
+                        <span>{isLoading ? < Skeleton width={100} /> : response?.data.data.author.email}</span>
                     </div>
+                </div>
+              <div className="row my-5">
+                    <ul>
+                        {response && response?.data.data.comments.map((comment, index) => {
+                    return(
+                        <li key={index}>
+                            <p>{comment.commentBody}</p>
+                            <h5>{comment.commentAuthor}</h5>
+                        </li>
+                    )
+                })}
+                    </ul>
+                </div>
+                <div className="row my-5">
+                    <PostForm comment={true} handleChange={handleForm} handleSubmit={addComment} />
                 </div>
             </div>
         </div>
