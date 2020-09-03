@@ -13,6 +13,18 @@ content-type: application/json
 GET http://localhost:8080/posts/
 ###
 
+POST http://localhost:8080/posts/comment
+content-type: application/json
+
+{
+  "commentBody": "Good art34icle11111111111111",
+  "authorId": "5f48fe19a84dea00126cbd3a",
+  "postId": "5f511c331d1835013013523f"
+}
+
+###
+
+
 PATCH  http://localhost:8080/posts/5f49001fca36fb004218bf5e
 content-type: application/json
 
@@ -22,7 +34,7 @@ content-type: application/json
 }
 ###
 
-DELETE http://localhost:8080/posts/5f4c05bc40e9a400fe34f1a8
+DELETE http://localhost:8080/posts/5f511b83e736db00a2823789
 
 
 
@@ -34,10 +46,10 @@ POST http://localhost:8080/register
 content-type: application/json
 
 {
-  "name": "Jedai",
+  "name": "Luck",
   "lastName": "Skywalker",
-  "email": "luck@star0.com",
-  "password": "darkwader",
+  "email": "lucksk@star0.com",
+  "password": "darthwader",
   "role": 0
 }
 //login form
@@ -47,8 +59,8 @@ POST http://localhost:8080/login
 content-type: application/json
 
 {
-   "email": "luck@star0.com",
-  "password": "darkwader"
+   "email": "lucksk@star0.com",
+  "password": "darthwader"
 }
 
 ###

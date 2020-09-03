@@ -24,6 +24,21 @@ postController.get("/all", async (req, res, next) => {
   }
 });
 
+///
+
+postController.post('/comment', isAdmin, auth, async (req, res, next) => {
+  let { postId, authorId } = req.body
+  try {
+      let newComment = {commentBody: "Good post", authorId: authorId, postId: postId}
+      let post = await Post.findById(postId)
+      post.comments.push(newComment)
+      let savedComment = await post.save();
+      res.json({ success: true, comment: savedComment})
+  } catch (e) {
+      res.json({error: "Error while creating comment" + e, success: false})
+  }
+})
+
 /* Get Single Post */
 postController.get("/:post_id", async (req, res, next) => {
   // --- archive
