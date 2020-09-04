@@ -28,6 +28,7 @@ export default function SinglePost(props) {
     const updatePost = async (e) => {
         e.preventDefault()
         try {
+            let id = props?.match.params.id
             let title = document.getElementById('editor').innerHTML
             let body = document.getElementById('editor2').innerHTML
             const config = { headers: { "Content-Type": "application/json" } };
