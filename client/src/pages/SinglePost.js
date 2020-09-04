@@ -122,13 +122,18 @@ export default function SinglePost(props) {
                                     return (
                                         auth.login && comment.authorId === auth.user ?
                                             <li key={comment._id}>
-                                                <p>{comment.commentBody}</p>
-                                                <h5>{comment.commentAuthor}</h5>
-                                                <button onClick={() => deleteComment(comment)} className="btn btn-outline-danger">Delete</button>
+                                               <div className="row py-2">
+                                                    <div className="col-md-12">{comment.commentBody}</div>
+                                                    <div className="col-md-12 d-flex align-items-center justify-content-between flex-row"> <h5>{comment.commentAuthor}</h5>
+                                                <button onClick={() => deleteComment(comment)} className="btn btn-outline-danger">Delete</button></div>
+                                               </div>
                                             </li> :
                                             <li key={comment._id}>
-                                                <p>{comment.commentBody}</p>
-                                                <h5>{comment.commentAuthor}</h5>
+                                                <div className="row py-2">
+                                                    <div className="col-md-12">{comment.commentBody}</div>
+                                                    <div className="col-md-12 d-flex align-items-center justify-content-between flex-row"> <h5>{comment.commentAuthor}</h5>
+                                               </div>
+                                               </div>
                                             </li>
                                     )
                                 })}
