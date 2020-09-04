@@ -5,10 +5,9 @@ const { auth, isAdmin } = require("../middleware/authMiddleware");
 /* Get all Posts */
 
 postController.get("/", isAdmin, auth, async (req, res, next) => {
-
   let usr = res.locals.user;
   try {
-    let posts = await Post.find({}).where("author").equals(usr._id).exec()
+    let posts = await Post.find({}).where("author").equals(usr._id).exec();
     res.status(200).json({ success: true, data: posts });
   } catch (err) {
     res.status(400).json({ success: false, error: "Sth wrong" + err.message });
@@ -17,10 +16,41 @@ postController.get("/", isAdmin, auth, async (req, res, next) => {
 
 postController.get("/all", async (req, res, next) => {
   try {
-    let posts = await Post.find({})
+    let posts = await Post.find({});
     res.status(200).json({ success: true, data: posts });
   } catch (err) {
     res.status(400).json({ success: false, error: "Sth wrong" + err.message });
+  }
+});
+
+///
+
+postController.post("/comment", async (req, res, next) => {
+  try {
+    let { postId, commentAuthor, commentBody, authorId } = req.body;
+    let newComment = {
+      commentBody: commentBody,
+      postId: postId,
+      commentAuthor,
+      authorId,
+    };
+    let post = await Post.findById(postId);
+    post.comments.push(newComment);
+    let savedComment = await post.save();
+    res.json({ success: true, data: savedComment });
+  } catch (e) {
+    res.json({ error: "Error while creating comment" + e, success: false });
+  }
+});
+postController.patch("/comment", async (req, res, next) => {
+  let { postId, _id } = req.body;
+  try {
+    let post = await Post.findById(postId);
+    post.comments.id(_id).remove();
+    let response = await post.save();
+    res.json({ success: true, data: response });
+  } catch (e) {
+    res.json({ error: "Error while deleting comment" + e, success: false });
   }
 });
 
@@ -41,7 +71,7 @@ postController.get("/:post_id", async (req, res, next) => {
   // });
   try {
     let singlePost = await Post.findById(req.params.post_id)
-      .populate({ path: "author", select: ['name', 'lastName', 'email'] })
+      .populate({ path: "author", select: ["name", "lastName", "email"] })
       .exec();
     res.status(200).json({
       success: true,
@@ -90,7 +120,10 @@ postController.patch("/:post_id", auth, isAdmin, async (req, res, next) => {
       {
         new: true,
       }
-    ).where('author').equals(res.locals.user._id).exec()
+    )
+      .where("author")
+      .equals(res.locals.user._id)
+      .exec();
     res.status(200).json({
       success: true,
       data: post,
@@ -106,9 +139,11 @@ postController.patch("/:post_id", auth, isAdmin, async (req, res, next) => {
 
 /* Delete Single Post */
 postController.delete("/:post_id", auth, isAdmin, async (req, res, next) => {
-
   try {
-    let result = await Post.findByIdAndDelete(req.params.post_id).where('author').equals(res.locals.user._id).exec()
+    let result = await Post.findByIdAndDelete(req.params.post_id)
+      .where("author")
+      .equals(res.locals.user._id)
+      .exec();
     res.status(200).json({
       success: true,
       result,

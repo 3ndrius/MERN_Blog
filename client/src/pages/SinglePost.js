@@ -4,15 +4,18 @@ import API from '../helpers/API'
 import { useFetch } from '../hooks'
 import { notify } from '../helpers/Notify'
 import { useAuthAccess } from '../contexts/AuthContext'
+import PostForm from '../components/PostForm';
 
 export default function SinglePost(props) {
-    const { id } = props?.match.params
+    const { id } = props?.match.params.id
 
     const [doCheck, setDoCheck] = useState(false)
     const [btnName, setBtnName] = useState("Enable editing")
     const { response, isLoading } = useFetch(props.match.params.id)
     const { auth } = useAuthAccess()
-
+    const [formData, handleFormData] = useState({})
+    const [show, setShow] = useState(false)
+    const [comments, setComments] = useState([])
     const enableUpdate = () => {
         setDoCheck(!doCheck)
         doCheck ? setBtnName("Enable editing") : setBtnName("Disable editing")
@@ -25,21 +28,21 @@ export default function SinglePost(props) {
     const updatePost = async (e) => {
         e.preventDefault()
         try {
+            let id = props?.match.params.id
             let title = document.getElementById('editor').innerHTML
             let body = document.getElementById('editor2').innerHTML
-
             const config = { headers: { "Content-Type": "application/json" } };
-            const bodys = { title, body };
+            const bodys = { title, body }
             const res = await API.patch(`/posts/${id}`, bodys, config)
-
             notify({ error: res.data.error, msg: res.data.message })
-
         } catch (e) {
-            console.log(e);
             notify({ error: "Server error" + e })
         }
     }
-
+    const loadComments = () => {
+        setShow(true)
+        setComments(response.data.data.comments)
+    }
     const handleDelete = async (id) => {
         try {
             const config = { headers: { "Content-Type": "application/json" } };
@@ -47,11 +50,39 @@ export default function SinglePost(props) {
             notify({ error: res.data.error, msg: res.data.message })
             props.history.push('/')
         } catch (e) {
-            console.log(e);
             notify({ error: "Server error" + e })
         }
     }
-
+    const handleForm = (e) => {
+        handleFormData({ ...formData, [e.target.id]: e.target.value })
+    }
+    const addComment = async (e) => {
+        e.preventDefault()
+        try {
+            let postId = props.match.params.id
+            let authorId = auth.user
+            const config = { headers: { "Content-Type": "application/json" } }
+            let body = { ...formData, postId, authorId }
+            const res = await API.post(`/posts/comment`, body, config)
+            setShow(true)
+            notify({ error: res.data.error, msg: res.data.message })
+            setComments(res.data.data.comments)
+        } catch (e) {
+            notify({ error: "Server error" + e })
+        }
+    }
+    const deleteComment = async (singleComment) => {
+        console.log(singleComment._id)
+        try {
+            const config = { headers: { "Content-Type": "application/json" } }
+            const res = await API.patch(`/posts/comment`, singleComment, config)
+            notify({ error: res.data.error, msg: res.data.message })
+            console.log(comments, singleComment._id)
+            setComments(comments.filter(comment => comment._id !== singleComment._id))
+        } catch (e) {
+            notify({ error: "Server error" + e })
+        }
+    }
     return (
         <div className="container pt-2">
             <div className="row pt-2">
@@ -74,12 +105,44 @@ export default function SinglePost(props) {
                 <div className="row mt-5">
                     <div className="col-md-12">
                         {isLoading ? <Skeleton height={80} /> : <h1 className="mb-5 p-2" id="editor" dangerouslySetInnerHTML={{ __html: response?.data.data.title }} />}
-                        {isLoading ? <Skeleton count={5}/> : <p id="editor2" className=" p-2" dangerouslySetInnerHTML={{ __html: response?.data.data.body }} />}
+                        {isLoading ? <Skeleton count={5} /> : <p id="editor2" className=" p-2" dangerouslySetInnerHTML={{ __html: response?.data.data.body }} />}
                         <hr />
-                        <span>{isLoading ?<Skeleton width={100}/> : response?.data.data.author.name} </span>
-                        <span>{isLoading ?< Skeleton width={100}/> : response?.data.data.author.lastName} </span>
-                        <span>{isLoading ? < Skeleton width={100}/> : response?.data.data.author.email}</span>
+                        <span>{isLoading ? <Skeleton width={100} /> : response?.data.data.author.name} </span>
+                        <span>{isLoading ? < Skeleton width={100} /> : response?.data.data.author.lastName} </span>
+                        <span>{isLoading ? < Skeleton width={100} /> : response?.data.data.author.email}</span>
                     </div>
+                </div>
+                <div className="row my-5">
+                    <h2>Comments</h2>
+                    {!show && <button className="btn btn-outline-primary my-2" onClick={loadComments}>Load comments</button>}
+                    <div className="col-md-12 my-5">
+                        {comments && (comments.length > 0) ?
+                            <ul>
+                                {comments.map((comment) => {
+                                    return (
+                                        auth.login && comment.authorId === auth.user ?
+                                            <li key={comment._id}>
+                                               <div className="row py-2">
+                                                    <div className="col-md-12">{comment.commentBody}</div>
+                                                    <div className="col-md-12 d-flex align-items-center justify-content-between flex-row"> <h5>{comment.commentAuthor}</h5>
+                                                <button onClick={() => deleteComment(comment)} className="btn btn-outline-danger">Delete</button></div>
+                                               </div>
+                                            </li> :
+                                            <li key={comment._id}>
+                                                <div className="row py-2">
+                                                    <div className="col-md-12">{comment.commentBody}</div>
+                                                    <div className="col-md-12 d-flex align-items-center justify-content-between flex-row"> <h5>{comment.commentAuthor}</h5>
+                                               </div>
+                                               </div>
+                                            </li>
+                                    )
+                                })}
+                            </ul>
+                            : show && <p>No comments</p>}
+                    </div>
+                </div>
+                <div className="row my-5">
+                    {auth.login && <PostForm comment={true} handleChange={handleForm} handleSubmit={addComment} />}
                 </div>
             </div>
         </div>
