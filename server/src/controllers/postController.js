@@ -27,10 +27,10 @@ postController.get("/all", async (req, res, next) => {
 ///
 
 postController.post('/comment', async (req, res, next) => {
-  let { postId, commentAuthor, commentBody } = req.body
+  let { postId, commentAuthor, commentBody, authorId } = req.body
 
   try {
-      let newComment = {commentBody: commentBody, postId: postId, commentAuthor: commentAuthor}
+      let newComment = {commentBody: commentBody, postId: postId, commentAuthor, authorId}
       let post = await Post.findById(postId)
       post.comments.push(newComment)
       let savedComment = await post.save();

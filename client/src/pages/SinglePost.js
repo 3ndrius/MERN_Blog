@@ -7,20 +7,20 @@ import { useAuthAccess } from '../contexts/AuthContext'
 import PostForm from '../components/PostForm';
 
 export default function SinglePost(props) {
-    const { id } = props?.match.params
+    const { id } = props?.match.params.id
 
     const [doCheck, setDoCheck] = useState(false)
     const [btnName, setBtnName] = useState("Enable editing")
     const { response, isLoading } = useFetch(props.match.params.id)
     const { auth } = useAuthAccess()
     const [formData, handleFormData] = useState({})
-
+    const [show, setShow] = useState(false)
+    const [comments, setComments] = useState([])
+console.log(auth, "|||", comments)
     const enableUpdate = () => {
         setDoCheck(!doCheck)
         doCheck ? setBtnName("Enable editing") : setBtnName("Disable editing")
     }
-
-   
     React.useEffect(() => {
         document.getElementById('editor').contentEditable = doCheck;
         document.getElementById('editor2').contentEditable = doCheck;
@@ -29,23 +29,20 @@ export default function SinglePost(props) {
     const updatePost = async (e) => {
         e.preventDefault()
         try {
-
             let title = document.getElementById('editor').innerHTML
             let body = document.getElementById('editor2').innerHTML
-
             const config = { headers: { "Content-Type": "application/json" } };
-            const bodys = { title, body };
-            console.log(bodys)
+            const bodys = { title, body }
             const res = await API.patch(`/posts/${id}`, bodys, config)
-
             notify({ error: res.data.error, msg: res.data.message })
-
         } catch (e) {
-            console.log(e);
             notify({ error: "Server error" + e })
         }
     }
-
+    const loadComments = () => {
+        setShow(true)
+        setComments(response.data.data.comments)
+    }
     const handleDelete = async (id) => {
         try {
             const config = { headers: { "Content-Type": "application/json" } };
@@ -53,7 +50,6 @@ export default function SinglePost(props) {
             notify({ error: res.data.error, msg: res.data.message })
             props.history.push('/')
         } catch (e) {
-            console.log(e);
             notify({ error: "Server error" + e })
         }
     }
@@ -62,20 +58,18 @@ export default function SinglePost(props) {
     }
     const addComment = async (e) => {
         e.preventDefault()
-        
         try {
-            const config = { headers: { "Content-Type": "application/json" } }
             let postId = props.match.params.id
-            let body = {...formData, postId}
+            let authorId = auth.user
+            const config = { headers: { "Content-Type": "application/json" } }
+            let body = { ...formData, postId, authorId }
             const res = await API.post(`/posts/comment`, body, config)
-            response.data.data.comments = response.data.data.comments.push(body)
             notify({ error: res.data.error, msg: res.data.message })
+            setComments([...comments, body])
         } catch (e) {
-            console.log(e);
             notify({ error: "Server error" + e })
         }
     }
-
     return (
         <div className="container pt-2">
             <div className="row pt-2">
@@ -105,20 +99,30 @@ export default function SinglePost(props) {
                         <span>{isLoading ? < Skeleton width={100} /> : response?.data.data.author.email}</span>
                     </div>
                 </div>
-              <div className="row my-5">
-                    <ul>
-                        {response && response?.data.data.comments.map((comment, index) => {
-                    return(
-                        <li key={index}>
-                            <p>{comment.commentBody}</p>
-                            <h5>{comment.commentAuthor}</h5>
-                        </li>
-                    )
-                })}
+                <div className="row my-5">
+                    <h2>Comments</h2>
+                   {!show && <button className="btn btn-outline-primary" onClick={loadComments}>Load comments</button>}
+                  <div className="col-md-12 my-5">
+                        <ul>
+                        {comments && comments.map((comment, index) => {
+                            return (
+                                auth.login && comment.authorId === auth.user ? 
+                                <li key={index}>
+                                    <p>{comment.commentBody}</p>
+                                    <h5>{comment.commentAuthor}</h5>
+                                     <button>Delete</button>
+                                </li> :
+                                <li key={index}>
+                                    <p>{comment.commentBody}</p>
+                                    <h5>{comment.commentAuthor}</h5>
+                                </li>
+                            )
+                        })}
                     </ul>
+                  </div>
                 </div>
                 <div className="row my-5">
-                    <PostForm comment={true} handleChange={handleForm} handleSubmit={addComment} />
+                  { auth.login && <PostForm comment={true} handleChange={handleForm} handleSubmit={addComment} />}
                 </div>
             </div>
         </div>
