@@ -3,7 +3,7 @@ import PostForm from '../components/PostForm'
 import API from '../helpers/API'
 import { notify } from '../helpers/Notify'
 
-export default function AddPost() {
+export default function AddPost(props) {
   const [formData, setFormData] = useState({ title: "", content: "" })
 
   const handleChange = (e) => {
@@ -18,6 +18,7 @@ export default function AddPost() {
       const bodys = { title, body }
       const res = await API.post(`/posts`, bodys, config)
       notify({ error: res.data.error, msg: res.data.message })
+      props.history.push('/dashboard')
     } catch (e) {
       notify({ error: "Error" + e });
       console.log(e);

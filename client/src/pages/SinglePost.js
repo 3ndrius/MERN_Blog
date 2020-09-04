@@ -16,7 +16,6 @@ export default function SinglePost(props) {
     const [formData, handleFormData] = useState({})
     const [show, setShow] = useState(false)
     const [comments, setComments] = useState([])
-console.log(auth, "|||", comments)
     const enableUpdate = () => {
         setDoCheck(!doCheck)
         doCheck ? setBtnName("Enable editing") : setBtnName("Disable editing")
@@ -64,8 +63,21 @@ console.log(auth, "|||", comments)
             const config = { headers: { "Content-Type": "application/json" } }
             let body = { ...formData, postId, authorId }
             const res = await API.post(`/posts/comment`, body, config)
+            setShow(true)
             notify({ error: res.data.error, msg: res.data.message })
-            setComments([...comments, body])
+            setComments(res.data.data.comments)
+        } catch (e) {
+            notify({ error: "Server error" + e })
+        }
+    }
+    const deleteComment = async (singleComment) => {
+        console.log(singleComment._id)
+        try {
+            const config = { headers: { "Content-Type": "application/json" } }
+            const res = await API.patch(`/posts/comment`, singleComment, config)
+            notify({ error: res.data.error, msg: res.data.message })
+            console.log(comments, singleComment._id)
+            setComments(comments.filter(comment => comment._id !== singleComment._id))
         } catch (e) {
             notify({ error: "Server error" + e })
         }
@@ -101,28 +113,30 @@ console.log(auth, "|||", comments)
                 </div>
                 <div className="row my-5">
                     <h2>Comments</h2>
-                   {!show && <button className="btn btn-outline-primary" onClick={loadComments}>Load comments</button>}
-                  <div className="col-md-12 my-5">
-                        <ul>
-                        {comments && comments.map((comment, index) => {
-                            return (
-                                auth.login && comment.authorId === auth.user ? 
-                                <li key={index}>
-                                    <p>{comment.commentBody}</p>
-                                    <h5>{comment.commentAuthor}</h5>
-                                     <button>Delete</button>
-                                </li> :
-                                <li key={index}>
-                                    <p>{comment.commentBody}</p>
-                                    <h5>{comment.commentAuthor}</h5>
-                                </li>
-                            )
-                        })}
-                    </ul>
-                  </div>
+                    {!show && <button className="btn btn-outline-primary my-2" onClick={loadComments}>Load comments</button>}
+                    <div className="col-md-12 my-5">
+                        {comments && (comments.length > 0) ?
+                            <ul>
+                                {comments.map((comment) => {
+                                    return (
+                                        auth.login && comment.authorId === auth.user ?
+                                            <li key={comment._id}>
+                                                <p>{comment.commentBody}</p>
+                                                <h5>{comment.commentAuthor}</h5>
+                                                <button onClick={() => deleteComment(comment)} className="btn btn-outline-danger">Delete</button>
+                                            </li> :
+                                            <li key={comment._id}>
+                                                <p>{comment.commentBody}</p>
+                                                <h5>{comment.commentAuthor}</h5>
+                                            </li>
+                                    )
+                                })}
+                            </ul>
+                            : show && <p>No comments</p>}
+                    </div>
                 </div>
                 <div className="row my-5">
-                  { auth.login && <PostForm comment={true} handleChange={handleForm} handleSubmit={addComment} />}
+                    {auth.login && <PostForm comment={true} handleChange={handleForm} handleSubmit={addComment} />}
                 </div>
             </div>
         </div>
