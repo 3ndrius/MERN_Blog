@@ -12,6 +12,7 @@ Full stack blog using mern stack, with register, and login using cookie http-onl
 - display all posts
 - user can delete and modyfy only post that created 
 - display login user info
+- user can add/ delete comments
 - ...
 
 ## TECH STACK AND PACKAGE
